@@ -1,0 +1,289 @@
+{
+    "title": "Invoice Builder API Doumentation",
+    "description": "Swagger API Docmentation for Invoice Builder Mean Stack App",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "version": "1.0.0",
+    "host":"localhost:3000",
+    "basePath":"/api",
+    "tags" : [
+        {
+            "name" : "Invoices",
+            "description" : "API for Invoice"
+        },
+        {
+            "name": "Clients",
+            "description": "API for Client"
+          }
+    ],
+    "schemes" :["http"],
+    "consumes" : ["application/json"],
+    "produces" : ["application/json"],
+    "paths":{
+        "/Clients": {
+            "post": {
+              "tags": ["Clients"],
+              "summary": "Create new Client",
+              "description": "Create new Client in the System",
+              "parameters": [
+                {
+                  "name": "client",
+                  "description": "client that we want to create",
+                  "in": "body",
+                  "required": true,
+                  "schema": {
+                    "$ref": "#definitions/Client"
+                  }
+                }
+              ],
+              "produces": ["application/json"],
+              "responses": {
+                "200": {
+                  "description": "new client is created",
+                  "schema": {
+                    "$ref": "#definitions/Client"
+                  }
+                }
+              }
+            },
+            "get": {
+              "tags": ["Clients"],
+              "summary": "FInd all Clients from the server",
+              "description": "All clients",
+              "responses": {
+                "200": {
+                  "description": "Ok",
+                  "schema": {
+                    "$ref": "#definitions/Client"
+                  }
+                }
+              }
+            }
+        },
+        "/Invoices":{
+            "post":{
+                "tags" :["Invoices"],
+                "summary":"Create new Invoice",
+                "description" : "Create new API According new Request",
+                "parameters":[
+                    {
+                    "name" : "invoice",
+                    "description" : "Invoice that we want to create invoice",
+                    "in" : "body",
+                    "required": true,
+                    "schema":{
+                        "$ref" : "#definations/Invoice"
+                    }
+                    }
+                ],
+                "produces" : ["application/json"],
+                "responses" :{
+                    "200":{
+                        "description" :"new Invoice is created",
+                        "schema" :{
+                            "$ref" :"#definations/Invoice"
+                        }
+                    }
+                }
+            },
+            "get":{
+                "tags" : ["Invoices"],
+                "summary" : "Find all invoice form the Server",
+                "description":"ALL Invoices",
+                "parameters":[
+                    {
+                        "name":"page",
+                        "type":"number",
+                        "description":"Set the page for Pagination",
+                        "in":"query"
+                    },
+                    {
+                        "name":"perPage",
+                        "type":"number",
+                        "description":"Define the limits",
+                        "in":"query"
+                    },
+                    {
+                        "name":"filter",
+                        "type":"string",
+                        "description":"Filter the invoices by item name",
+                        "in":"query"
+                    },
+                    {
+                        "name":"sortField",
+                        "type":"string",
+                        "description":"Define SortField for sorting ",
+                        "in":"query"
+                    },
+                    {
+                        "name":"sortDir",
+                        "type":"string",
+                        "description":"Define SortDir for sorting ",
+                        "in":"query"
+                    }
+
+                ],
+                "responses" :{
+                    "200":{
+                        "description":"Ok",
+                        "schema":{
+                            "$ref":"#definations/Invoice"
+                        }
+                    }
+                }
+            }
+        },
+        "/Invoices/{id}":{
+            "parameters":[
+                {
+                    "name":"id",
+                    "in":"path",
+                    "description":"Id of the Invoices",
+                    "type":"string"
+                }
+            ],
+            "get" : {
+                "tags" :["Invoices"],
+                "description":"Find the Invoices by id",
+                "summary":"Find single Invoices",
+                "responses":{
+                    "200":{
+                        "description":"Invoice has Found",
+                        "schema":{
+                            "$ref":"#definations/Invoice"
+                        }
+                    }
+                }
+            },
+            "delete":{
+                "tags" :["Invoices"],
+                "description":"Delete the Invoices by id",
+                "summary":"Delete single Invoices",
+                "responses":{
+                    "200":{
+                        "description":"Invoice has Delete",
+                        "schema":{
+                            "$ref":"#definations/Invoice"
+                        }
+                    }
+                }
+            },
+            "put":{
+                    "tags" :["Invoices"],
+                    "summary":"Update the Invoice",
+                    "description" : "Update API According  Request",
+                    "parameters":[
+                        {
+                        "name" : "invoice",
+                        "description" : "Invoice that we want to Update invoice",
+                        "in" : "body",
+                        "required": true,
+                        "schema":{
+                            "$ref" : "#definations/Invoice"
+                        }
+                        }
+                    ],
+                    "produces" : ["application/json"],
+                    "responses" :{
+                        "200":{
+                            "description" :"Invoice is updated",
+                            "schema" :{
+                                "$ref" :"#definations/Invoice"
+                            }
+                        }
+                    }
+            }
+        },
+    "definations" : {
+        "Invoice" : {
+            "required" :["item", "qty" , "date", "due", "client"],
+            "properties" : {
+                "_id":{
+                    "type" : "string",
+                    "uniqueItems": true
+                },
+                "item":{
+                    "type" : "string"
+                },
+                "qty":{
+                    "type" : "integer",
+                    "format":"int32"
+                },
+                "date":{
+                    "type" : "string",
+                    "format": "date"
+                },
+                "due":{
+                    "type" : "string",
+                    "format": "date"
+                },
+                "rate":{
+                    "type" : "number",
+                    "format":"float"
+                },
+                "tax":{
+                    "type" : "number",
+                    "format":"float"
+                },
+                "client" :{
+                    "type" : "string"
+                }
+            }
+        },
+        "UpdateInvoice" : {
+            "properties" : {
+                "item":{
+                    "type" : "string"
+                },
+                "qty":{
+                    "type" : "integer",
+                    "format":"int32"
+                },
+                "date":{
+                    "type" : "string",
+                    "format": "date"
+                },
+                "due":{
+                    "type" : "string",
+                    "format": "date"
+                },
+                "rate":{
+                    "type" : "number",
+                    "format":"float"
+                },
+                "tax":{
+                    "type" : "number",
+                    "format":"float"
+                },
+                "client":{
+                    "type":"string"
+                }
+                
+            }
+        },
+        "Invoices":{
+            "properties":{
+                "docs":{
+                    "type":"array",
+                    "$ref":"#definations/Invoice"
+                },
+                "total":{
+                    "type":"integer"
+                },
+                "page":{
+                    "type":"integer"
+                },
+                "pages":{
+                    "type":"integer"
+                },
+                "limit":{
+                    "type":"integer"
+                }
+            }
+            
+        }
+    }
+  }   
+}
